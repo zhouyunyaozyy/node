@@ -1,0 +1,26 @@
+C:\Users\Administrator\Desktop\htmp2pdf\node_modules\wkhtmltopdf\index.js:161
+    throw new Error(err); // critical error
+    ^
+
+Error: Error: spawn wkhtmltopdf ENOENT
+    at ChildProcess.<anonymous> (C:\Users\Administrator\Desktop\htmp2pdf\node_modules\wkhtmltopdf\index.js:161:11)
+    at Object.onceWrapper (events.js:315:30)
+    at emitOne (events.js:116:13)
+    at ChildProcess.emit (events.js:211:7)
+    at Process.ChildProcess._handle.onexit (internal/child_process.js:196:12)
+    at onErrorNT (internal/child_process.js:372:16)
+    at _combinedTickCallback (internal/process/next_tick.js:138:11)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+C:\Users\Administrator\Desktop\htmp2pdf\node_modules\wkhtmltopdf\index.js:161
+    throw new Error(err); // critical error
+    ^
+
+Error: Error: spawn wkhtmltopdf ENOENT
+    at ChildProcess.<anonymous> (C:\Users\Administrator\Desktop\htmp2pdf\node_modules\wkhtmltopdf\index.js:161:11)
+    at Object.onceWrapper (events.js:315:30)
+    at emitOne (events.js:116:13)
+    at ChildProcess.emit (events.js:211:7)
+    at Process.ChildProcess._handle.onexit (internal/child_process.js:196:12)
+    at onErrorNT (internal/child_process.js:372:16)
+    at _combinedTickCallback (internal/process/next_tick.js:138:11)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
