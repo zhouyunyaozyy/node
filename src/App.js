@@ -40,7 +40,7 @@ app.get('/toNodeGetPdf',async function(req, res) {
 //    }
   
     
-    await exportPDF(fileName,idArr)
+    await exportPDF(fileName,idArr,res)
     try{
 //      await exportPDF(fileName,idArr)
 //      await task.splice(task.indexOf(id), 1);
@@ -51,9 +51,9 @@ app.get('/toNodeGetPdf',async function(req, res) {
   
     await console.log("输出完成");
     
-    console.log("正在压缩");
-    await pakageFile(fileName, idArr, res);
-    console.log("压缩完成，正在传输");
+//    console.log("正在压缩");
+//    await pakageFile(fileName, idArr, res);
+//    console.log("压缩完成，正在传输");
     
 //    await setTimeout(function () {
 //      console.log("正在压缩");
@@ -70,7 +70,8 @@ app.get('/toNodeGetPdf',async function(req, res) {
         
 });
 
-function exportPDF (fileName,idArr){
+function exportPDF (fileName,idArr, res){
+  let num = idArr.length
 //  phantom
 //  const instance = await phantom.create();
 //  const page = await instance.createPage();
@@ -89,21 +90,29 @@ function exportPDF (fileName,idArr){
 //    new Promise()
     fs.mkdirSync('../resource/'+fileName); 
     console.log('创建目录')
+//	let url = 'http://192.168.1.115:5020/dabai-page/export/resume/' // 开发
+	let url = 'http://h5-test.chaorenjob.com/export/resume/' // 测试
     for(var id of idArr){
       console.log('正在导出'+id)
 //      await wkhtmltopdf('http://192.168.1.115:8765/export/resume?rrid=' + id, { output: '../resource/'+fileName+'/' + id +'.pdf'});
 //      wkhtmltopdf('http://192.168.1.115:8765/export/resume?rrid=' + id)
 //      .pipe(fs.createWriteStream('../resource/'+fileName+'/' + id +'.pdf')); // 开发
-      wkhtmltopdf('http://api-test.chaorenjob.com/export/resume?rrid=' + id, function(err, stream){
-        console.log('回调', new Date())
+	  console.log(url + id)
+      wkhtmltopdf(url + id, {pageSize: 'A4', 'margin-left': '3mm', 'margin-right': '3mm', 'margin-top': '3mm', 'margin-bottom': '3mm', 'disable-smart-shrinking': true, 'page-width': 170}, function(err, stream){
+//      wkhtmltopdf(url + id, {pageSize: 'A4', marginLeft: '3mm', marginRight: '3mm', marginTop: '3mm', marginBottom: '3mm', 'disable-smart-shrinking': true, pageWidth: '170mm'}, function(err, stream){
+        if(num <= 1) {
+          pakageFile(fileName, idArr, res)
+        } else {
+          num--
+        }
       }) // 测试
       .pipe(fs.createWriteStream('../resource/'+fileName+'/' + id +'.pdf'));
-      console.log('钱', new Date())
       console.log("导出文件"+fileName+'/' + id +'.pdf')
     }
 };
   
 function pakageFile(fileName, idArr, res){
+    console.log("正在压缩");
     function readFile(path) {
       let sizeBool = true
        files = fs.readdirSync(path);//需要用到同步读取
@@ -139,6 +148,7 @@ function pakageFile(fileName, idArr, res){
         }
         archive.finalize();
         clearInterval(inter)
+        console.log("压缩完成，正在传输");
         setTimeout(function(){
           res.download("../resource/"+fileName+"/resume.zip")
           console.log("传输完成");
